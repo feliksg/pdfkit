@@ -22,7 +22,13 @@ class PDFKit
         root_url = root_url(env)
         protocol = protocol(env)
         options = @options.merge(root_url: root_url, protocol: protocol)
-        body = PDFKit.new(body, options).to_pdf
+
+        binding.remote_pry
+        begin
+          body = PDFKit.new(body, options).to_pdf
+        rescue RuntimeError => e
+          body = PDFKit.new(body, options.merge(no_images: true)).to_pdf
+        end
         response = [body]
 
         if headers['PDFKit-save-pdf']
