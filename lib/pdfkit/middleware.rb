@@ -23,7 +23,6 @@ class PDFKit
         protocol = protocol(env)
         options = @options.merge(root_url: root_url, protocol: protocol)
 
-        binding.remote_pry
         begin
           body = PDFKit.new(body, options).to_pdf
         rescue RuntimeError => e
